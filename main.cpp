@@ -10,16 +10,16 @@ string value[] = { "Ace", "Two", "Three","Four", "Five", "Six", "Seven", "Eight"
 
 int cardDeal()
 {
-int cardValue = 1+(rand() % 13);
-srand(time(0));
-return cardValue;
+    int cardValue = 1+(rand() % 13);
+    srand(time(0));
+        return cardValue;
 }
 
 string randomcard()
 {
     string card;
     card = value[cardDeal()];
-    return card;
+        return card;
 
 }
 
@@ -27,7 +27,7 @@ int clip()
 {
     int lowestCard = 1;
     int highestCard = 10;
-  return std::max(lowestCard, std::min(cardDeal()+1, highestCard));
+        return std::max(lowestCard, std::min(cardDeal()+1, highestCard));
 }
 
 int main()
@@ -35,6 +35,5 @@ int main()
     cardDeal();
     int numberofcards = 52;
     int trueValue = clip();
-
     cout << "You drew a " << randomcard() << endl << trueValue << endl;
 }
