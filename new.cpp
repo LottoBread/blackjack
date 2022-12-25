@@ -173,6 +173,8 @@ int main()
 
         if (dealerHandSum() == playerHandSum() && dealerBust() == 0 && playerBust() == 0)
             cout << "Push!" << endl;
+        if (dealerBust() == 1 && playerBust() == 1)
+            cout << "You Lose!"
 
         //cout << "Play again? (Y/N)";
         //string playAgain;
