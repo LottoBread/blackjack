@@ -16,6 +16,18 @@ bool replay = 1;
 int playerHand[10] = {0};
 int dealerHand[10] = {0};
 
+int dealerHandSum()
+{
+    int total = dealerHand[1] + dealerHand[2] + dealerHand[3] + dealerHand[4] + dealerHand[5] + dealerHand[6] + dealerHand[7] + dealerHand[8] + dealerHand[9] + dealerHand[10];
+    return total;
+}
+
+int playerHandSum()
+{
+    int total = playerHand[1] + playerHand[2] + playerHand[3] + playerHand[4] + playerHand[5] + playerHand[6] + playerHand[7] + playerHand[8] + playerHand[9] + playerHand[10];
+    return total;
+}
+
 int deal()
 {
     sleep(1);
@@ -47,8 +59,7 @@ int clip()
 
 bool playerBust()
 {
-    int playerTotal = playerHand[1] + playerHand[2] + playerHand[3] + playerHand[4] + playerHand[5] + playerHand[6] + playerHand[7] + playerHand[8] + playerHand[9] + playerHand[10];
-    if (playerTotal > 21)
+    if (playerHandSum() > 21)
         return 1;
     else
         return 0;
@@ -56,8 +67,7 @@ bool playerBust()
 
 bool dealerBust()
 {
-    int dealerTotal = dealerHand[1] + dealerHand[2] + dealerHand[3] + dealerHand[4] + dealerHand[5] + dealerHand[6] + dealerHand[7] + dealerHand[8] + dealerHand[9] + dealerHand[10];
-    if (dealerTotal > 21)
+    if (dealerHandSum() > 21)
         return 1;
     else
         return 0;
@@ -84,76 +94,75 @@ int main()
  //while(replay)
  //{
     string hitStay;
-    int numRounds = 0;
-    int dealerHandTotal;
+    int dealerHandSum();
          getchar();
          dealerHand[1] = clip();
          dealerHand[2] = clip();
          playerHand[1] = clip();
          playerHand[2] = clip();
-         dealerHandTotal = dealerHand[1] + dealerHand[2];
-         int playerTotal = playerHand[1] + playerHand[2] + playerHand[3] + playerHand[4] + playerHand[5] + playerHand[6] + playerHand[7] + playerHand[8] + playerHand[9] + playerHand[10];
 
          cout << "Dealer is showing a " << dealerHand[1] << endl << "You have a " << playerHand[1] << " and a " << playerHand[2] << ", with a total of " << playerHand[1] + playerHand[2] << endl << endl;
          cout << "Press H to hit, S to stay" << endl;
          cin >> hitStay;
-         bool drawing = 1;
+         
         if(hitStay == "H")
         {
+            bool drawing = 1;
             //playerHand[3] = clip();
             //cout << "You drew a " << playerHand[3] << ". You have a total of " << playerHand[1] + playerHand[2] + playerHand[3] << endl;
-            while(drawing == 1)
+            int round = 3;
+
+            while(drawing == 1, playerBust() == 0)
             {
-                int round = 3;
-                string yesno;
                 playerHand[round] = clip();
-                cout << "You drew a " << playerHand[round] << " with a total of " << playerTotal << endl;
+                cout << "You drew a " << playerHand[round] << " with a total of " << playerHandSum() << endl;
                     if(playerBust() == 1)
                         playerLose();
                     else
-                {
+                    {
                     cout << "Draw Again? (Y/N)";
+                    string yesno = "N";
                     cin >> yesno;
                         if (yesno == "Y")
                         {
                             drawing = 1;
                             round = round + 1;
                         }
-                        if (yesno == "N")
+                        else
+                        {
                             drawing = 0;
-                }
-                return playerTotal;
+                            
+                        }
             }
             hitStay = "S";
         }
         
-        if (hitStay == "S", dealerHandTotal >= 17)
+        if (hitStay == "S", dealerHandSum() >= 17)
         {
-            cout << "Dealer Had a " << dealerHandTotal << endl;
+            cout << "Dealer Had a " << dealerHandSum() << endl;
         }
             else
         {
-            while(dealerHandTotal < 17)
+            int round = 3;
+            while(dealerHandSum() < 17)
             {
-                int round = 3;
                 dealerHand[round] = clip();
-                dealerHandTotal = dealerHand[1] + dealerHand[2] + dealerHand[3] + dealerHand[4] + dealerHand[5] + dealerHand[6] + dealerHand[7] + dealerHand[8] + dealerHand[9];
                 round = round + 1;
             }
-        cout << "Dealer drew to a " << dealerHandTotal << endl;
+        cout << "Dealer drew to a " << dealerHandSum() << endl;
         }
         
-        if (dealerBust() == 1)
-            playerWin();
+        //if (dealerBust() == 1)
+        //    playerWin();
         
-        if(playerBust() == 1)
-            playerLose();
+        //if(playerBust() == 1)
+        //    playerLose();
 
-        //if( playerTotal > dealerHandTotal, dealerBust == 0)
+        //if( playerTotal > dealerHandSum(), dealerBust == 0)
         //    cout << "Player wins!!!!!!!" << endl;
         //else
         //    cout << "Dealer wins!!!!!!" << endl;
-        cout << playerTotal;
+        cout << playerHandSum();
 
         
 
