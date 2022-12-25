@@ -16,6 +16,12 @@ bool replay = 1;
 int playerHand[10] = {0};
 int dealerHand[10] = {0};
 
+void initHands()
+{
+    int playerHand[10] = {0};
+    int dealerHand[10] = {0};
+}
+
 int dealerHandSum()
 {
     int total = dealerHand[1] + dealerHand[2] + dealerHand[3] + dealerHand[4] + dealerHand[5] + dealerHand[6] + dealerHand[7] + dealerHand[8] + dealerHand[9] + dealerHand[10];
@@ -112,12 +118,12 @@ int main()
             //cout << "You drew a " << playerHand[3] << ". You have a total of " << playerHand[1] + playerHand[2] + playerHand[3] << endl;
             int round = 3;
 
-            while(drawing == 1, playerBust() == 0)
+            while(drawing == 1 && playerBust() == 0)
             {
                 playerHand[round] = clip();
                 cout << "You drew a " << playerHand[round] << " with a total of " << playerHandSum() << endl;
                     if(playerBust() == 1)
-                        playerLose();
+                        cout << "Bust!" << endl;
                     else
                     {
                     cout << "Draw Again? (Y/N)";
@@ -135,13 +141,14 @@ int main()
                         }
             }
             hitStay = "S";
+            }
         }
         
-        if (hitStay == "S", dealerHandSum() >= 17)
+        if (hitStay == "S" && dealerHandSum() >= 17)
         {
             cout << "Dealer Had a " << dealerHandSum() << endl;
         }
-            else
+        if (hitStay == "S" && dealerHandSum() < 17)
         {
             int round = 3;
             while(dealerHandSum() < 17)
@@ -152,19 +159,36 @@ int main()
         cout << "Dealer drew to a " << dealerHandSum() << endl;
         }
         
-        //if (dealerBust() == 1)
-        //    playerWin();
+        if (dealerBust() == 1 && playerBust() == 0)
+            playerWin();
         
-        //if(playerBust() == 1)
-        //    playerLose();
+        if(playerBust() == 1 && dealerBust() == 0)
+            playerLose();
 
-        //if( playerTotal > dealerHandSum(), dealerBust == 0)
-        //    cout << "Player wins!!!!!!!" << endl;
-        //else
-        //    cout << "Dealer wins!!!!!!" << endl;
-        cout << playerHandSum();
+        if(playerHandSum() > dealerHandSum() && dealerBust() == 0 && playerBust() == 0) 
+            cout << "Player wins!!!!!!!" << endl;
+
+        if(dealerHandSum() > playerHandSum() && dealerBust() == 0 && playerBust() == 0)
+            cout << "Dealer wins!!!!!!" << endl;
+
+        if (dealerHandSum() == playerHandSum() && dealerBust() == 0 && playerBust() == 0)
+            cout << "Push!" << endl;
+
+        //cout << "Play again? (Y/N)";
+        //string playAgain;
+        //cin >> playAgain;
+        //if(playAgain == "Y")
+        //    replay = 1;
+        //if(playAgain == "N")
+        //    replay = 0;
+
+        //initHands();
+        //cout << playerHandSum() << dealerHandSum();
+    
+        
 
         
 
 //}
+        
 }
