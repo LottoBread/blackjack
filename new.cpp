@@ -8,7 +8,19 @@
 using namespace std;
 
 bool deck[52] = {false};
+int HIDDEN_CARD = -999;
+int CARD_HEIGHT = 8;
+string CARD_GAP = "   ";
 
+const string CARD_TOP = "┌─────────┐";
+const string CARD_BOTTOM = "└─────────┘";
+const string HIDDEN_CARD_BODY = "│░░░░░░░░░│";
+const string CARD_BODY = "│         │";
+
+
+
+
+string cardValues[] = {"K", "A", "1", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q" };
 string faceValue[] = {"King", "Ace", "Two", "Three","Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen"};
 string suit[] = {"Spades", "Clubs", "Hearts", "Diamonds"};
 bool dealtCards[52] = {0};
@@ -18,6 +30,52 @@ int dealerHand[10] = {0};
 bool playerWinLose;
 bool playerPush;
 
+string cardHeader(int cardIndex)
+{
+    // takes index of card and gives corresponding value for top of card
+    // i.e. K, Q, J, 4, 5, etc.
+    string hdr = "│ " + cardValues[cardIndex+1] + "       │"; 
+    return hdr;
+}
+
+string cardFooter(int cardIndex)
+{
+    // takes index of card and gives corresponding value for top of card
+    // i.e. K, Q, J, 4, 5, etc.
+    string hdr = "│       " + cardValues[cardIndex+1] + " │"; 
+    return hdr;
+}
+
+void printCards(int cardIndices[], int num_indices)
+{
+    string cur_line = "";
+    for(int lines = 0; lines < CARD_HEIGHT; lines++)
+    {
+        cur_line = "";
+        for(int i = 0; i < num_indices; i++)
+        {
+            if(lines == 0){ // print top of card(s)
+                cur_line += CARD_TOP + CARD_GAP;
+            }
+            else if(lines == CARD_HEIGHT - 1){ // print bottom of card(s)
+                cur_line += CARD_BOTTOM + CARD_GAP;
+            }
+            else if (cardIndices[i] == HIDDEN_CARD){ // print lined body for hidden dealer card
+                cur_line += HIDDEN_CARD_BODY + CARD_GAP;
+            }
+            else if(lines == 1){ // header
+                cur_line += cardHeader(cardIndices[i]) + CARD_GAP;
+            }
+            else if(lines == CARD_HEIGHT - 2){ // footer
+                cur_line += cardFooter(cardIndices[i]) + CARD_GAP;
+            }
+            else{ // blank card body
+                cur_line += CARD_BODY + CARD_GAP;
+            }
+        }
+        cout << cur_line << endl;
+    }
+}
 void initHands()
 {
     int i;
@@ -39,13 +97,14 @@ void initHands()
 
 int dealerHandSum()
 {
-    int total = dealerHand[1] + dealerHand[2] + dealerHand[3] + dealerHand[4] + dealerHand[5] + dealerHand[6] + dealerHand[7] + dealerHand[8] + dealerHand[9] + dealerHand[10];
+    int total = dealerHand[0] + dealerHand[1] + dealerHand[2] + dealerHand[3] + dealerHand[4] + dealerHand[5] + dealerHand[6] + dealerHand[7] + dealerHand[8] + dealerHand[9] + dealerHand[10];
+    
     return total;
 }
 
 int playerHandSum()
 {
-    int total = playerHand[1] + playerHand[2] + playerHand[3] + playerHand[4] + playerHand[5] + playerHand[6] + playerHand[7] + playerHand[8] + playerHand[9] + playerHand[10];
+    int total = playerHand[0] + playerHand[1] + playerHand[2] + playerHand[3] + playerHand[4] + playerHand[5] + playerHand[6] + playerHand[7] + playerHand[8] + playerHand[9] + playerHand[10];
     return total;
 }
 
@@ -104,7 +163,6 @@ void playerWin()
     cout << "Dealer busted! You win." << endl;
 }
 
-
 int main()
 {
 
@@ -113,6 +171,14 @@ int main()
 
     string quitInput;
     string hitStay;
+
+    // int arr[] = {1, 0};
+    // printCards(arr, 2);
+    // int arr1[] = {2, 2};
+    // printCards(arr1, 2);
+    // int arr2[] = {12, HIDDEN_CARD};
+    // printCards(arr2, 2);    
+
     int dealerHandSum();
         cout << "~~~~~ Welcome to BlackJack ~~~~~" << endl;
         cout << "Press ENTER to continue..." << endl << endl;
@@ -123,7 +189,7 @@ int main()
  {
     bool betting = 1;
     int playerBet;
-    
+    int dealerHandHidden[10];
 
     while(betting == 1)
     {
@@ -136,23 +202,32 @@ int main()
     }
         playerBalance = playerBalance - playerBet;
 
+         dealerHand[0] = clip();
          dealerHand[1] = clip();
-         dealerHand[2] = clip();
+         playerHand[0] = clip();
          playerHand[1] = clip();
-         playerHand[2] = clip();
 
-         cout << "Dealer is showing a " << dealerHand[1] << endl << "You have a " << playerHand[1] << " and a " << playerHand[2] << ", with a total of " << playerHand[1] + playerHand[2] << endl << endl;
+         dealerHandHidden[0] = dealerHand[0];
+         dealerHandHidden[1] = HIDDEN_CARD;
+         cout << "Dealer's Hand:" << endl;
+         printCards(dealerHandHidden, 2);
+         cout <<  endl << "Player's Hand:" << endl;
+         printCards(playerHand, 2);  
+
+         cout << "Dealer is showing a " << dealerHand[0] << endl << "You have a " << playerHand[0] << " and a " << playerHand[1] << ", with a total of " << playerHand[0] + playerHand[1] << endl << endl;
          cout << "Press H to hit, S to stay" << endl;
          cin >> hitStay;
          
         if(hitStay == "H")
         {
             bool drawing = 1;
-            int round = 3;
+            int round = 2;
 
             while(drawing == 1 && playerBust() == 0)
             {
                 playerHand[round] = clip();
+                cout << endl;
+                printCards(playerHand, round+1);
                 cout << "You drew a " << playerHand[round] << " with a total of " << playerHandSum() << endl << endl;
                     if(playerBust() == 1)
                         cout << "Bust!" << endl << endl;
@@ -235,7 +310,7 @@ int main()
 
         if (playerPush == 1 && playerWinLose == 0)
         {
-            cout << "You get your " << playerBet << "back." << endl;
+            cout << "You get your " << playerBet << " back." << endl;
             playerBalance = playerBalance + playerBet;
         }
 
