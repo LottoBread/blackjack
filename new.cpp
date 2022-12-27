@@ -13,11 +13,13 @@ int CARD_HEIGHT = 8;
 int SMALL_CARD_HEIGHT = 3;
 string CARD_GAP = "   ";
 
+//template for printing cards to console
 const string CARD_TOP = "┌─────────┐";
 const string CARD_BOTTOM = "└─────────┘";
 const string HIDDEN_CARD_BODY = "│░░░░░░░░░│";
 const string CARD_BODY = "│         │";
 
+//template for printing small cards to console
 const string SMALL_CARD_TOP = "┌───┐";
 const string SMALL_CARD_BOTTOM = "└───┘";
 const string SMALL_HIDDEN_CARD_BODY = "│░░░│";
@@ -166,13 +168,6 @@ int deal()
     else
         dealtCards[cardPosition] = 1;
     return cardNumber;
-}
-
-string translateCard()
-{
-    string card = "faceValue[cardNumber] of suit[cardSuit]";
-    return card;
-
 }
 
 int clip()
