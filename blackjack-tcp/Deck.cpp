@@ -14,6 +14,8 @@ using namespace std;
 //     deckSize -= 1;
 // }
 
+Deck::Deck() {}
+
 int Deck::getDeckSize()
 {
     return deckSize;
@@ -39,5 +41,6 @@ int Deck::drawCard()
     deckSize -= 1;
     return cardNumber;
 }
+
 
 

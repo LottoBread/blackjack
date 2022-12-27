@@ -7,6 +7,7 @@ class Deck
         bool dealtCards[52] = {0}; // bitmap of deck
         int deckSize = 52;
     public:  // these functions/variables can be accessed by anyone 
+        Deck();
         int drawCard(); // modifies dealtCards
         // void decrementDeckSize();  
         int getDeckSize(); 

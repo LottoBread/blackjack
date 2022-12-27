@@ -3,8 +3,8 @@
 
 using namespace std;
 
-Client::Client(int fd){
-    fd = fd;
+Client::Client(int connfd){
+    fd = connfd;
 }
 
 const vector<int>& Client::getHand() const{
