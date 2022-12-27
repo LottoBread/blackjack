@@ -26,7 +26,7 @@ endif
 all:  blackjack-tcp-$(EXEC_SUFFIX)
 
 blackjack-tcp-$(EXEC_SUFFIX): blackjack-tcp.cpp
-	$(CC) $(CFLAGS) $(OSINC) $(OSLIB) $(OSDEF)  -o $@ blackjack-tcp.cpp server.cpp
+	$(CC) $(CFLAGS) $(OSINC) $(OSLIB) $(OSDEF)  -o $@ blackjack-tcp.cpp server.cpp Client.cpp
 
 clean:
 	-rm -rf blackjack-tcp-* blackjack-tcp-*.dSYM

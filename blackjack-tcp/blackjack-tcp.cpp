@@ -10,6 +10,8 @@
 
 #include "server.h"
 #include "blackjack-tcp.h"
+#include "Client.h"
+#include "Deck.h"
 
 using namespace std;
 
@@ -19,6 +21,7 @@ int main(int argc, char *argv[])
     socklen_t addr_len;
     int server_fd, connfd;
     char * addr;
+    
     if(argc == 2)
         addr = argv[1];
     else
@@ -34,7 +37,7 @@ int main(int argc, char *argv[])
         else 
             printf("got connection\n");
         
-        usleep(2000000);
+        usleep(3000000);
         printf("waiting for connection\n");
     }
 }
