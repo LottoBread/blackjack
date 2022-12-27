@@ -10,12 +10,17 @@ using namespace std;
 bool deck[52] = {false};
 int HIDDEN_CARD = -999;
 int CARD_HEIGHT = 8;
+int SMALL_CARD_HEIGHT = 3;
 string CARD_GAP = "   ";
 
 const string CARD_TOP = "┌─────────┐";
 const string CARD_BOTTOM = "└─────────┘";
 const string HIDDEN_CARD_BODY = "│░░░░░░░░░│";
 const string CARD_BODY = "│         │";
+
+const string SMALL_CARD_TOP = "┌───┐";
+const string SMALL_CARD_BOTTOM = "└───┘";
+const string SMALL_HIDDEN_CARD_BODY = "│░░░│";
 
 
 
@@ -44,6 +49,45 @@ string cardFooter(int cardIndex)
     // i.e. K, Q, J, 4, 5, etc.
     string hdr = "│       " + cardValues[cardIndex+1] + " │"; 
     return hdr;
+}
+
+string smallCardHeader(int cardIndex)
+{
+    // takes index of card and gives corresponding value for top of card
+    // i.e. K, Q, J, 4, 5, etc.
+    string hdr = "│ " + cardValues[cardIndex+1] + " │"; 
+    return hdr;
+}
+
+void printSmallCards(int cardIndices[], int num_indices)
+{
+    string cur_line = "";
+    for(int lines = 0; lines < SMALL_CARD_HEIGHT; lines++)
+    {
+        cur_line = "";
+        for(int i = 0; i < num_indices; i++)
+        {
+            if(lines == 0){ // print top of card(s)
+                cur_line += SMALL_CARD_TOP + CARD_GAP;
+            }
+            else if(lines == SMALL_CARD_HEIGHT - 1){ // print bottom of card(s)
+                cur_line += SMALL_CARD_BOTTOM + CARD_GAP;
+            }
+            else if (cardIndices[i] == HIDDEN_CARD){ // print lined body for hidden dealer card
+                cur_line += SMALL_HIDDEN_CARD_BODY + CARD_GAP;
+            }
+            else if(lines == 1){ // header
+                cur_line += smallCardHeader(cardIndices[i]) + CARD_GAP;
+            }
+            //else if(lines == SMALL_CARD_HEIGHT - 2){ // footer
+            //    cur_line += cardFooter(cardIndices[i]) + CARD_GAP;
+            //}
+            //else{ // blank card body
+            //    cur_line += CARD_BODY + CARD_GAP;
+            //}
+        }
+        cout << cur_line << endl;
+    }
 }
 
 void printCards(int cardIndices[], int num_indices)
@@ -76,6 +120,7 @@ void printCards(int cardIndices[], int num_indices)
         cout << cur_line << endl;
     }
 }
+
 void initHands()
 {
     int i;
@@ -210,7 +255,7 @@ int main()
          dealerHandHidden[0] = dealerHand[0];
          dealerHandHidden[1] = HIDDEN_CARD;
          cout << "Dealer's Hand:" << endl;
-         printCards(dealerHandHidden, 2);
+         printSmallCards(dealerHandHidden, 2);
          cout <<  endl << "Player's Hand:" << endl;
          printCards(playerHand, 2);  
 
