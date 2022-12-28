@@ -20,6 +20,7 @@ class Client
         Client(int connfd); // a Constructor that sets the fd variable of this object
         const vector<int>& getHand() const; // returns a reference to the hand that CANNOT be modified
         void addCardToHand(int cardValue);
+        int getHandSum(Client client);
 
 
 };

@@ -207,7 +207,7 @@ int main(int argc, char *argv[])
             printf("Failed to write any bytes to %d\n", clients[i].fd);
         // numread = read(clients[i].fd, buf, 20);
         // printf("Read in %d chars: %s\n", numread, buf);
-        memset(buf, 0, 1024);
+        memset(buf, 0, 1024);       
         
     }
     printf("Done printing cards\n");
@@ -233,19 +233,32 @@ int main(int argc, char *argv[])
 
 
         while(clients[i].hitStay == 1){
-            server.sendToClient(clients[i], "Would you like to hit? (Yes/No) \n");
-            string hit = server.readFromClient(clients[i]);
+            string hit = "";
             string yes = "Yes\n";
-            
-            for(unsigned int i=0; i <hit.size(); i++)
-                printf("%d\n", hit[i]);
+                server.sendToClient(clients[i], "Would you like to hit? (Yes/No) \n");
+                server.sendToClient(clients[i], "You have a total of " + to_string(clients[i].getHandSum(clients[i])) + "\n");            
+                hit = server.readFromClient(clients[i]);
+            //for(unsigned int i=0; i <hit.size(); i++){
+                //printf("%d\n", hit[i]);
+                
+                
+            //}
 
+                
+                
             if(hit == yes){
-                server.sendToClient(clients[i], "You hit");
-                cout << hit;
+                
+                int rounds = 3;
+                server.sendToClient(clients[i], "You hit\n");
+                clients[i].addCardToHand(deck.drawCard());
+                cards = getCardsStr(clients[i].getHand() , rounds);
+                strcpy(buf, cards.c_str());
+                if(write(clients[i].fd, buf, cards.size()) == 0); 
+                rounds = rounds + 1;
+                server.sendToClient(clients[i], "You have a total of " + to_string(clients[i].getHandSum(clients[i])) + "\n");           
                 }
             else{
-                server.sendToClient(clients[i], "You stay");
+                server.sendToClient(clients[i], "You stay\n");
                 clients[i].hitStay = 0;
                 cout << hit;
                 }
