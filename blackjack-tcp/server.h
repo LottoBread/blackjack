@@ -1,7 +1,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#define BUF_SIZE 1023
+#define BUF_SIZE 1024
 
 #include "Client.h"
 

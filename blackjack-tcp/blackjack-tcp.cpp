@@ -207,6 +207,7 @@ int main(int argc, char *argv[])
             printf("Failed to write any bytes to %d\n", clients[i].fd);
         // numread = read(clients[i].fd, buf, 20);
         // printf("Read in %d chars: %s\n", numread, buf);
+        memset(buf, 0, 1024);
         
     }
     printf("Done printing cards\n");
@@ -229,12 +230,23 @@ int main(int argc, char *argv[])
         //{
         //cout << buf;
         //}
-        cout << server.readFromClient(clients[i]);
 
 
-        //while(clients[i].hitStay == 1){
-        //    server.sendToClient(clients[i], "")
-        //}
+        while(clients[i].hitStay == 1){
+            server.sendToClient(clients[i], "Would you like to hit? (Yes/No) \n");
+            string hit = server.readFromClient(clients[i]);
+            string yes = "Yes\n";
+            //cout << hit;
+                if(hit == yes){
+                server.sendToClient(clients[i], "You hit");
+                cout << hit;
+                }
+                else{
+                server.sendToClient(clients[i], "You stay");
+                clients[i].hitStay = 0;
+                cout << hit;
+                }
+        }
 
         
 

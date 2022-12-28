@@ -21,13 +21,14 @@ Server::Server(int fd)
 string Server::readFromClient(Client client)
 {
     memset(buf, 0, BUF_SIZE);
-    // need to handle case where morer than BUFSIZE bytes are read
+    // need to handle case where more than BUFSIZE bytes are read
     read(client.fd, buf, BUF_SIZE);
     string output = buf;
     return output;
 }
 
-void Server::sendToClient(Client client, string str){
+void Server::sendToClient(Client client, string str)
+{
     memset(buf, 0, BUF_SIZE);
     strcpy(buf, str.c_str());
     write(client.fd, buf, BUF_SIZE);

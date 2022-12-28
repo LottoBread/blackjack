@@ -16,7 +16,7 @@ class Client
     public: // these functions/variables can be accessed by anyone 
         int fd; // file descriptor for this client
         int playerBalance = 1000;
-        bool hitStay;
+        bool hitStay = 1;
         Client(int connfd); // a Constructor that sets the fd variable of this object
         const vector<int>& getHand() const; // returns a reference to the hand that CANNOT be modified
         void addCardToHand(int cardValue);
