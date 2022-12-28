@@ -236,12 +236,15 @@ int main(int argc, char *argv[])
             server.sendToClient(clients[i], "Would you like to hit? (Yes/No) \n");
             string hit = server.readFromClient(clients[i]);
             string yes = "Yes\n";
-            //cout << hit;
-                if(hit == yes){
+            
+            for(unsigned int i=0; i <hit.size(); i++)
+                printf("%d\n", hit[i]);
+
+            if(hit == yes){
                 server.sendToClient(clients[i], "You hit");
                 cout << hit;
                 }
-                else{
+            else{
                 server.sendToClient(clients[i], "You stay");
                 clients[i].hitStay = 0;
                 cout << hit;

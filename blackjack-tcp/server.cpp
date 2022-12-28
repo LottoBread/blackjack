@@ -9,6 +9,7 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <algorithm>
 
 #include "Client.h"
 #include "server.h"
@@ -24,6 +25,7 @@ string Server::readFromClient(Client client)
     // need to handle case where more than BUFSIZE bytes are read
     read(client.fd, buf, BUF_SIZE);
     string output = buf;
+    output.erase(remove(output.begin(), output.end(), '\r'), output.end());
     return output;
 }
 
@@ -95,7 +97,7 @@ int open_server_socket(char* addr, struct sockaddr_in6* sin6, socklen_t *addr_le
 
     sin6->sin6_family = AF_INET6;
     sin6->sin6_flowinfo = 0;
-    sin6->sin6_port = htons(6969);
+    sin6->sin6_port = 0;
     if(addr)
     {
         if(inet_pton(AF_INET6, addr, (void*)&(sin6->sin6_addr)) != 1) // try ipv6 conversion
