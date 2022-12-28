@@ -1,5 +1,6 @@
 #include "Client.h"
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -14,3 +15,4 @@ const vector<int>& Client::getHand() const{
 void Client::addCardToHand(int cardValue){
     hand.push_back(cardValue);
 }
+

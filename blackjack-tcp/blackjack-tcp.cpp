@@ -19,13 +19,19 @@
 
 using namespace std;
 
+//string spades = "\u2660";
+//string hearts = "\u2665";
+//string diamonds = "\u2666";
+//string clubs = "\u2663";
+
+
 int CARD_HEIGHT = 8;
 int HIDDEN_CARD = -999;
 int SMALL_CARD_HEIGHT = 3;
 
 string cardValues[] = {"K", "A", "1", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q" };
 string faceValue[] = {"King", "Ace", "Two", "Three","Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen"};
-
+string cardSuit[] = {"\u2660", "\u2665", "\u2666", "\u2663" };
 const string CARD_TOP = "┌─────────┐";
 const string CARD_BOTTOM = "└─────────┘";
 const string HIDDEN_CARD_BODY = "│░░░░░░░░░│";
@@ -40,9 +46,9 @@ const string SMALL_HIDDEN_CARD_BODY = "│░░░│";
 
 string cardFooter(int cardIndex)
 {
-    // takes index of card and gives corresponding value for top of card
+    // takes index of card and gives corresponding value for top of cardoill
     // i.e. K, Q, J, 4, 5, etc.
-    string hdr = "│       " + cardValues[cardIndex+1] + " │"; 
+    string hdr = "│ " + cardSuit[rand() % 4] + "     " + cardValues[cardIndex+1] + " │"; 
     return hdr;
 }
 
@@ -50,7 +56,7 @@ string cardHeader(int cardIndex)
 {
     // takes index of card and gives corresponding value for top of card
     // i.e. K, Q, J, 4, 5, etc.
-    string hdr = "│ " + cardValues[cardIndex+1] + "       │"; 
+    string hdr = "│ " + cardValues[cardIndex+1] + "     " + cardSuit[rand() % 4] + " │"; 
     return hdr;
 }
 
@@ -78,6 +84,9 @@ string getCardsStr(vector<int> cardIndices, int num_indices)
             else if(lines == CARD_HEIGHT - 2){ // footer
                 cur_line += cardFooter(cardIndices[i]) + CARD_GAP;
             }
+            //else if(lines == 4){ // suit
+            //    cur_line += cardSuit() + CARD_GAP;
+            //}
             else{ // blank card body
                 cur_line += CARD_BODY + CARD_GAP;
             }
@@ -132,6 +141,9 @@ return output;
 
 int main(int argc, char *argv[])
 {
+    setlocale(LC_ALL, "");
+    //cout << "\u2660" << endl;
+
     struct sockaddr_in6 sin6 = {0};
     socklen_t addr_len;
     int numread = 0, server_fd, connfd;
@@ -148,7 +160,7 @@ int main(int argc, char *argv[])
     else
         addr = NULL;
     server_fd = open_server_socket(addr, &sin6, &addr_len);
-
+    Server server(server_fd);
     // sets terminal input to not block
     fcntl(0, F_SETFL, fcntl(0, F_GETFL) | O_NONBLOCK);
  
@@ -205,15 +217,29 @@ int main(int argc, char *argv[])
         for(unsigned int j=0; j < clients.size(); j++){
             if(i == j) // dont send this client his cards again
                 continue;
-            strcpy(buf, cards.c_str());
             if(write(clients[j].fd, buf, cards.size()) == 0)
                 printf("Failed to write any bytes to %d\n", clients[j].fd);        
         }
         // game logic
         printf("Client %d 's turn\n", clients[i].fd);
 
+        // memset(buf, 0, 1024);
+        //numread = read(clients[i].fd, buf, 255);
+        //if(numread > 0)
+        //{
+        //cout << buf;
+        //}
+        cout << server.readFromClient(clients[i]);
+
+
+        //while(clients[i].hitStay == 1){
+        //    server.sendToClient(clients[i], "")
+        //}
+
+        
+
     }
     
-    return 0;        
+    //return 0;        
     
 }
